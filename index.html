@@ -199,15 +199,58 @@
   margin-top: 5px;
 }
 
+@media print {
+  .action-buttons {
+    display: none !important;
+  }
+
+  #resume {
+    display: block !important;
+    color: black !important;
+    background: white !important;
+  }
+
+  body {
+    background: white !important;
+  }
+}
+
+
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  .action-buttons {
+    display: none !important;
+  }
+
+  #resume {
+    display: block !important;
+    background: white !important;
+    color: black !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+}
+
+
 </style>
 </head>
 <body>
 
-<!-- Action Buttons -->
+<!-- Action Buttons
 <div class="action-buttons">
   <button id="downloadPdf">Download PDF</button>
   <button id="printBtn">Print</button>
-</div>
+</div>   -->
 
 <!-- Resume Container -->
 <div class="resume-container" id="resume">
@@ -228,7 +271,7 @@
   <div class="contact-info">
     <div>Mississauga, ON</div>
     <div>+1 647-405-6271</div>
-    <div><a href="mailto:ameers.cloud786@gmail.com">ameers.cloud786@gmail.com</a></div>
+    <div><a href="mailto:ameer.a.shaik@capgemini.com">ameer.a.shaik@capgemini.com</a></div>
     
   </div>
 </header>
@@ -265,8 +308,6 @@
       Lead teams in designing and implementing Spring Boot microservices for financial applications using 12-factor app principles on PCF and Kubernetes. Architected cloud solutions leveraging AWS infrastructure components (VPC, EC2, S3, RDS). Drove CI/CD pipeline improvements using Jenkins and GitLab, boosting deployment efficiency. Applied Saga pattern (Choreography & Orchestration) and resilience patterns (Eureka, Netflix OSS Circuit Breaker). Mentored developers on Agile practices, microservices, and cloud-native development.
     </p>
   </div>
-
-  <div> </div>
 
   <div class="job">
     <div>
@@ -423,18 +464,27 @@
 <!-- JS for PDF & Print -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
-  const resumeContent = document.getElementById('resume');
+ const resumeContent = document.getElementById('resume');
 
-  document.getElementById('downloadPdf').addEventListener('click', () => {
-    const opt = {
-      margin: 0.5,
-      filename: 'Ameer_Shaik_Resume.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-    };
-    html2pdf().set(opt).from(resumeContent.innerHTML).save();
+
+ document.getElementById('downloadPdf').addEventListener('click', () => {
+  const opt = {
+    margin: 0.5,
+    filename: 'Ameer_Shaik_Resume.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: {
+      scale: 2,
+      useCORS: true,
+      scrollY: 0
+    },
+    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+  };
+
+  html2pdf().set(opt).from(resumeContent).save().then(() => {
+    console.log("Download complete!");
   });
+});
+
 
   document.getElementById('printBtn').addEventListener('click', () => {
     const printWindow = window.open('', '_blank');
@@ -454,5 +504,3 @@
 
 </body>
 </html>
-
-
